@@ -45,3 +45,30 @@ __int64 __fastcall be::check_physical_memory(__int64 physical_memory)
   }
   return result;
 }
+
+__int64 __fastcall sub_1403453AF(_QWORD *a1, __int64 a2, __int64 a3)
+{
+  int v5; // ebx
+  char v7[16]; // [rsp+30h] [rbp-48h] BYREF
+  int v8; // [rsp+40h] [rbp-38h] BYREF
+  __int64 v9; // [rsp+48h] [rbp-30h]
+  char *v10; // [rsp+50h] [rbp-28h]
+  int v11; // [rsp+58h] [rbp-20h]
+  __int128 v12; // [rsp+60h] [rbp-18h]
+
+  RtlInitUnicodeString(v7, a3);
+  v9 = 0i64;
+  v10 = v7;
+  v8 = 48;
+  v11 = 576;
+  v12 = 0i64;
+  v5 = ZwOpenSection(a1, 0x80000000i64, &v8);
+  if ( v5 < 0 )
+    return (unsigned int)v5;
+  _mm_lfence();
+  v5 = ObReferenceObjectByHandle(*a1, 0i64, 0i64, 0i64, a2, 0i64);
+  if ( v5 >= 0 )
+    return (unsigned int)v5;
+  ZwClose(*a1);
+  return (unsigned int)v5;
+}
